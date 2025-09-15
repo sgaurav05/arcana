@@ -9,6 +9,27 @@ export const metadata: Metadata = {
   description: 'A mystical digital tarot app for daily readings and insights.',
 };
 
+const Meteors = () => {
+  const meteorCount = 20;
+  return (
+    <>
+      {Array.from({ length: meteorCount }).map((_, i) => (
+        <div
+          key={i}
+          className="meteor"
+          style={{
+            top: `${Math.random() * 20}%`,
+            left: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 5}s`,
+            animationDuration: `${Math.random() * 3 + 2}s`,
+          }}
+        />
+      ))}
+    </>
+  );
+};
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -22,8 +43,9 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
+        <Meteors />
         <Header />
-        <main className="container mx-auto px-4 py-8">
+        <main className="container mx-auto px-4 py-8 relative z-10">
           {children}
         </main>
         <Toaster />

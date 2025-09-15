@@ -72,17 +72,30 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
-    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
-    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
-    radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
-    background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
-    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
-    animation: stars 200s linear infinite;
+    background:
+      radial-gradient(ellipse at bottom, hsl(var(--background)) 50%, transparent),
+      linear-gradient(to right, #2a002a, #002a2a);
+    overflow: hidden;
   }
 
-  @keyframes stars {
-    from { background-position: 0 0, 40px 60px, 130px 270px, 70px 100px; }
-    to { background-position: -10000px 5000px, -10000px 5000px, -10000px 5000px, -10000px 5000px; }
+  .meteor {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 0px white;
+    animation: meteor-fall 5s linear infinite;
+  }
+
+  @keyframes meteor-fall {
+    from {
+      transform: translate(0, -250px) rotate(25deg);
+      opacity: 1;
+    }
+    to {
+      transform: translate(900px, 100vh) rotate(25deg);
+      opacity: 0;
+    }
   }
 }
