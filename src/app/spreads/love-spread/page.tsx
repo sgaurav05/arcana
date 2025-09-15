@@ -15,29 +15,11 @@ type DrawnCard = {
 
 const spreadPositions = ['You', 'Your Partner', 'The Relationship'];
 
-const getInitialState = (): DrawnCard[] => {
-    if (typeof window === 'undefined') {
-        return [];
-    }
-    try {
-        const storedState = sessionStorage.getItem('loveSpreadState');
-        if (storedState) {
-            const parsedState = JSON.parse(storedState);
-            if (Array.isArray(parsedState) && parsedState.length === 3 && parsedState.every(item => item.card && typeof item.isReversed === 'boolean')) {
-                return parsedState;
-            }
-        }
-    } catch (e) {
-        console.error("Failed to parse stored love spread state", e);
-    }
-    return [];
-};
-
-
 export default function LoveSpreadPage() {
   const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([]);
   const [isFlipped, setIsFlipped] = useState(false);
 
+  // This function now only runs on the client, preventing hydration errors.
   const drawSpread = () => {
     setIsFlipped(false);
     setTimeout(() => {
@@ -53,26 +35,30 @@ export default function LoveSpreadPage() {
             }
         }
         setDrawnCards(newDrawnCards);
+        sessionStorage.setItem('loveSpreadState', JSON.stringify(newDrawnCards));
         setIsFlipped(true);
-    }, 100);
+    }, 150);
   };
 
   useEffect(() => {
-    const initialState = getInitialState();
-    if (initialState.length > 0) {
-      setDrawnCards(initialState);
-      setIsFlipped(true);
-    } else {
-      drawSpread();
+    // This effect runs once on component mount on the client side.
+    const storedState = sessionStorage.getItem('loveSpreadState');
+    if (storedState) {
+        try {
+            const parsedState = JSON.parse(storedState);
+             if (Array.isArray(parsedState) && parsedState.length === 3) {
+                setDrawnCards(parsedState);
+                setIsFlipped(true);
+                return;
+            }
+        } catch (e) {
+            console.error("Failed to parse stored love spread state", e);
+        }
     }
+    // If no valid state in storage, draw a new spread.
+    drawSpread();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (drawnCards.length > 0) {
-      sessionStorage.setItem('loveSpreadState', JSON.stringify(drawnCards));
-    }
-  }, [drawnCards]);
 
   return (
     <div className="flex flex-col items-center text-center py-10">
@@ -97,7 +83,7 @@ export default function LoveSpreadPage() {
                 <div className="w-full h-full border-2 border-dashed border-accent/30 rounded-xl" />
               )}
             </div>
-            {drawnCards[index] && (
+            {drawnCards[index] && isFlipped && (
               <div className="mt-4 text-center animate-in fade-in duration-500">
                 <h3 className="text-xl font-bold font-headline">{drawnCards[index].card.name}</h3>
                 {drawnCards[index].isReversed && <p className="text-accent text-sm">(Reversed)</p>}

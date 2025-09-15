@@ -25,11 +25,11 @@ export default function DailyDrawPage() {
       const card = tarotDeck[randomIndex];
       setDrawnCard({ card, isReversed });
       setIsFlipped(true); // Flip the new card
-    }, 100);
+    }, 150); // Increased timeout slightly
   };
   
   useEffect(() => {
-    // Draw a card on initial load
+    // Draw a card on initial load, only on the client
     drawCard(); 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -61,7 +61,7 @@ export default function DailyDrawPage() {
         {drawnCard ? 'Draw Another Card' : 'Draw Your Card'}
       </Button>
 
-      {drawnCard && (
+      {drawnCard && isFlipped && (
         <div className="mt-8 text-center animate-in fade-in duration-500">
           <h2 className="text-3xl font-bold font-headline">{drawnCard.card.name}</h2>
           {drawnCard.isReversed && <p className="text-accent text-sm">(Reversed)</p>}
