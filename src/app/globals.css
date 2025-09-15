@@ -90,11 +90,11 @@
 
   @keyframes meteor-fall {
     from {
-      transform: translate(0, -250px) rotate(25deg);
+      transform: translate(0, -250px) rotate(-45deg);
       opacity: 1;
     }
     to {
-      transform: translate(900px, 100vh) rotate(25deg);
+      transform: translate(-50vw, 100vh) rotate(-45deg);
       opacity: 0;
     }
   }
