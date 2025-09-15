@@ -89,7 +89,7 @@ export default function ThreeCardSpreadPage() {
                 <TarotCard
                   card={drawnCards[index].card}
                   isReversed={drawnCards[index].isReversed}
-                  isFflipped={isFlipped}
+                  isFlipped={isFlipped}
                 />
               ) : (
                 <div className="w-full h-full border-2 border-dashed border-accent/30 rounded-xl" />
