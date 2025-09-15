@@ -6,9 +6,11 @@ import { Sparkles } from 'lucide-react';
 
 import { APP_NAME } from '@/lib/constants';
 import { cn } from '@/lib/utils';
+import { Logo } from './Logo';
 
 const navItems = [
-  { name: 'Card of the Day', href: '/' },
+  { name: 'Home', href: '/' },
+  { name: 'Card of the Day', href: '/daily-draw' },
   { name: 'Three-Card Spread', href: '/spreads/three-card' },
   { name: 'Card Library', href: '/library' },
 ];
@@ -21,7 +23,7 @@ export function Header() {
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <div className="mr-4 flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Sparkles className="h-6 w-6 text-accent" />
+            <Logo />
             <span className="font-bold sm:inline-block font-headline">
               {APP_NAME}
             </span>
