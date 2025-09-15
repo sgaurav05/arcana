@@ -75,16 +75,15 @@
     background:
       radial-gradient(ellipse at bottom, hsl(var(--background)) 50%, transparent),
       linear-gradient(to right, #2a002a, #002a2a);
-    overflow: hidden;
   }
 
   .meteor {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 50px;
+    height: 50px;
     background-color: white;
     border-radius: 50%;
-    box-shadow: 0 0 10px 0px white;
+    box-shadow: 0 0 50px 0px white;
     animation: meteor-fall 5s linear infinite;
   }
 
