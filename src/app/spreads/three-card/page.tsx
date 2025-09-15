@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { tarotDeck, TarotCardData } from '@/lib/tarot-data';
 import { Button } from '@/components/ui/button';
 import { TarotCard } from '@/components/TarotCard';
@@ -23,7 +23,10 @@ const getInitialState = () => {
         try {
             const parsedState = JSON.parse(storedState);
             if (Array.isArray(parsedState) && parsedState.length === 3) {
-                return parsedState;
+                 // Ensure card data is complete
+                 if (parsedState.every(item => item.card && typeof item.isReversed === 'boolean')) {
+                    return parsedState;
+                }
             }
         } catch (e) {
             console.error("Failed to parse stored three-card state", e);
@@ -34,18 +37,30 @@ const getInitialState = () => {
 
 
 export default function ThreeCardSpreadPage() {
-  const [drawnCards, setDrawnCards] = useState<DrawnCard[]>(getInitialState);
-  const [areFlipped, setAreFlipped] = useState(drawnCards.length > 0);
+  const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([]);
+  const [areFlipped, setAreFlipped] = useState(false);
   const [keys, setKeys] = useState([0, 1, 2]);
+
+  useEffect(() => {
+    const initialState = getInitialState();
+    if (initialState.length > 0) {
+      setDrawnCards(initialState);
+      setAreFlipped(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (drawnCards.length > 0) {
+      sessionStorage.setItem('threeCardState', JSON.stringify(drawnCards));
+    } else {
+        sessionStorage.removeItem('threeCardState');
+    }
+  }, [drawnCards]);
 
   const drawSpread = () => {
     setAreFlipped(false);
+    setDrawnCards([]); // Clear cards to ensure re-render
     
-    // Clear session storage for a new draw
-    if (typeof window !== 'undefined') {
-        sessionStorage.removeItem('threeCardState');
-    }
-
     setKeys(keys => keys.map(k => k + 3)); // Ensure components re-mount
     
     setTimeout(() => {
@@ -61,11 +76,6 @@ export default function ThreeCardSpreadPage() {
         }
       }
       setDrawnCards(newDrawnCards);
-
-      // Save state to session storage
-      if (typeof window !== 'undefined') {
-        sessionStorage.setItem('threeCardState', JSON.stringify(newDrawnCards));
-      }
 
       setTimeout(() => {
         setAreFlipped(true);
