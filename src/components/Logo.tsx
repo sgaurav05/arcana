@@ -7,46 +7,24 @@ export function Logo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
       viewBox="0 0 100 100"
       className={cn('h-8 w-8', className)}
       {...props}
+      fill="currentColor"
     >
-      <defs>
-        <linearGradient id="grass-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#a7f3d0' }} />
-          <stop offset="33%" style={{ stopColor: '#bae6fd' }} />
-          <stop offset="66%" style={{ stopColor: '#d8b4fe' }} />
-          <stop offset="100%" style={{ stopColor: '#fed7aa' }} />
-        </linearGradient>
-      </defs>
-      
-      {/* Spade Shape */}
-      <path
-        d="M 50,5 C 25,25 10,45 20,65 C 25,75 40,95 50,95 C 60,95 75,75 80,65 C 90,45 75,25 50,5 Z"
-        fill="black"
-        stroke="#e5e7eb"
-        strokeWidth="1.5"
-      />
-      <path
-        d="M 45,90 L 55,90 L 50,100 Z"
-        fill="black"
-        stroke="#e5e7eb"
-        strokeWidth="1.5"
-      />
-
-      {/* Splashed dots */}
-      <circle cx="45" cy="40" r="2.5" fill="grey" opacity="0.6" />
-      <circle cx="60" cy="35" r="1.5" fill="grey" opacity="0.5" />
-      <circle cx="52" cy="55" r="3" fill="grey" opacity="0.7" />
-      <circle cx="42" cy="65" r="1.5" fill="grey" opacity="0.4" />
-      <circle cx="58" cy="70" r="2" fill="grey" opacity="0.6" />
-      <circle cx="38" cy="50" r="2" fill="grey" opacity="0.5" />
-      
-      {/* Curvy grass */}
-      <path
-        d="M10 60 C 30 40, 70 80, 90 50"
-        stroke="url(#grass-gradient)"
-        strokeWidth="5"
-        fill="none"
-        strokeLinecap="round"
-      />
+      <path d="M50 95C45 90 40 80 40 70C40 60 45 50 50 40C55 50 60 60 60 70C60 80 55 90 50 95Z M50 85C52.5 80 55 72.5 55 65C55 57.5 52.5 50 50 45C47.5 50 45 57.5 45 65C45 72.5 47.5 80 50 85Z" />
+      <path d="M50 5C55 15 60 25 60 35C60 45 55 55 50 65C45 55 40 45 40 35C40 25 45 15 50 5Z M50 60C52.5 52.5 55 45 55 37.5C55 30 52.5 22.5 50 15C47.5 22.5 45 30 45 37.5C45 45 47.5 52.5 50 60Z" />
+      <path d="M65 55C70 52.5 75 47.5 80 40C75 42.5 70 47.5 65 55Z" />
+      <path d="M35 55C30 52.5 25 47.5 20 40C25 42.5 30 47.5 35 55Z" />
+      <path d="M50 65C52.5 62.5 55 60 57.5 57.5C55 60 52.5 62.5 50 65Z" />
+      <path d="M50 65C47.5 62.5 45 60 42.5 57.5C45 60 47.5 62.5 50 65Z" />
+      <path d="M50 40C55 35 60 30 65 25C60 30 55 35 50 40Z" />
+      <path d="M50 40C45 35 40 30 35 25C40 30 45 35 50 40Z" />
+      <path d="M62.5,37.5 C60,40 57.5,42.5 55,45 C57.5,42.5 60,40 62.5,37.5Z" />
+      <path d="M37.5,37.5 C40,40 42.5,42.5 45,45 C42.5,42.5 40,40 37.5,37.5Z" />
+      <path d="M50 20C52.5 25 55 30 57.5 35C55 30 52.5 25 50 20Z" />
+      <path d="M50 20C47.5 25 45 30 42.5 35C45 30 47.5 25 50 20Z" />
+      <path d="M50 90C51.25 87.5 52.5 85 53.75 82.5C52.5 85 51.25 87.5 50 90Z" />
+      <path d="M50 90C48.75 87.5 47.5 85 46.25 82.5C47.5 85 48.75 87.5 50 90Z" />
+      <path d="M50 75C55 72.5 60 70 65 67.5C60 70 55 72.5 50 75Z" />
+      <path d="M50 75C45 72.5 40 70 35 67.5C40 70 45 72.5 50 75Z" />
     </svg>
   );
 }
