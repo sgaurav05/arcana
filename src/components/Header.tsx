@@ -12,6 +12,7 @@ const navItems = [
   { name: 'Home', href: '/' },
   { name: 'Card of the Day', href: '/daily-draw' },
   { name: 'Three-Card Spread', href: '/spreads/three-card' },
+  { name: 'Love Spread', href: '/spreads/love-spread' },
   { name: 'Card Library', href: '/library' },
 ];
 
