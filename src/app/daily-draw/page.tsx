@@ -14,25 +14,48 @@ type DrawnCard = {
 export default function DailyDrawPage() {
   const [drawnCard, setDrawnCard] = useState<DrawnCard | null>(null);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    const storedState = sessionStorage.getItem('dailyDrawState');
+    if (storedState) {
+        try {
+            const parsedState = JSON.parse(storedState);
+            if (parsedState.card) {
+                setDrawnCard(parsedState);
+                setIsFlipped(true);
+                return;
+            }
+        } catch (e) {
+            console.error("Failed to parse stored daily draw state", e);
+            sessionStorage.removeItem('dailyDrawState');
+        }
+    }
+  }, []);
 
   const drawCard = () => {
-    setIsFlipped(false); // Reset flip state
+    setIsFlipped(false);
 
-    // Use a timeout to allow the card to flip back before changing the card data
     setTimeout(() => {
       const randomIndex = Math.floor(Math.random() * tarotDeck.length);
       const isReversed = Math.random() > 0.5;
       const card = tarotDeck[randomIndex];
-      setDrawnCard({ card, isReversed });
-      setIsFlipped(true); // Flip the new card
-    }, 150); // Increased timeout slightly
+      const newDrawnCard = { card, isReversed };
+      setDrawnCard(newDrawnCard);
+      sessionStorage.setItem('dailyDrawState', JSON.stringify(newDrawnCard));
+      setIsFlipped(true);
+    }, 150);
   };
-  
+
   useEffect(() => {
-    // Draw a card on initial load, only on the client
-    drawCard(); 
+    // Draw initial card only if nothing is in storage and on the client
+    if (isClient && !sessionStorage.getItem('dailyDrawState')) {
+      drawCard();
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isClient]);
+
 
   return (
     <div className="flex flex-col items-center justify-center text-center py-10">
@@ -42,7 +65,7 @@ export default function DailyDrawPage() {
       </p>
 
       <div className="mb-8 w-60 h-[350px] flex items-center justify-center">
-        {drawnCard ? (
+        {drawnCard && isClient ? (
           <div className="w-full h-full">
             <TarotCard
               card={drawnCard.card}

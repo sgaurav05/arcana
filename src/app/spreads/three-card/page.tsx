@@ -16,8 +16,26 @@ const spreadPositions = ['Past', 'Present', 'Future'];
 export default function ThreeCardSpreadPage() {
   const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([]);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
-  // This function now only runs on the client, preventing hydration errors.
+  useEffect(() => {
+    setIsClient(true);
+    const storedState = sessionStorage.getItem('threeCardState');
+    if (storedState) {
+        try {
+            const parsedState = JSON.parse(storedState);
+            if (Array.isArray(parsedState) && parsedState.length === 3) {
+                setDrawnCards(parsedState);
+                setIsFlipped(true);
+                return;
+            }
+        } catch (e) {
+            console.error("Failed to parse stored three-card state", e);
+            sessionStorage.removeItem('threeCardState');
+        }
+    }
+  }, []);
+
   const drawSpread = () => {
     setIsFlipped(false);
     setTimeout(() => {
@@ -40,23 +58,11 @@ export default function ThreeCardSpreadPage() {
 
   useEffect(() => {
     // This effect runs once on component mount on the client side.
-    const storedState = sessionStorage.getItem('threeCardState');
-    if (storedState) {
-        try {
-            const parsedState = JSON.parse(storedState);
-            if (Array.isArray(parsedState) && parsedState.length === 3) {
-                setDrawnCards(parsedState);
-                setIsFlipped(true);
-                return;
-            }
-        } catch (e) {
-            console.error("Failed to parse stored three-card state", e);
-        }
+    if (isClient && !sessionStorage.getItem('threeCardState')) {
+      drawSpread();
     }
-    // If no valid state in storage, draw a new spread.
-    drawSpread();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isClient]);
 
   return (
     <div className="flex flex-col items-center text-center py-10">
@@ -70,7 +76,7 @@ export default function ThreeCardSpreadPage() {
           <div key={index} className="flex flex-col items-center">
             <h2 className="text-2xl font-headline text-accent mb-4">{position}</h2>
             <div className="w-60 h-[350px]">
-              {drawnCards[index] ? (
+              {isClient && drawnCards[index] ? (
                 <TarotCard
                   card={drawnCards[index].card}
                   isReversed={drawnCards[index].isReversed}
