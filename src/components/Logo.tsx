@@ -15,26 +15,29 @@ export function Logo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
           <stop offset="66%" style={{ stopColor: '#d8b4fe' }} />
           <stop offset="100%" style={{ stopColor: '#fed7aa' }} />
         </linearGradient>
-        <clipPath id="spade-clip">
-          <path d="M50 2.5 C20 35, 10 55, 50 90 C90 55, 80 35, 50 2.5" />
-        </clipPath>
       </defs>
       
-      {/* Spade shape */}
-      <g>
-        <path d="M50 2.5 C20 35, 10 55, 50 90 C90 55, 80 35, 50 2.5" fill="black" stroke="white" strokeWidth="1" />
-        <path d="M42.5 85 h15 l-7.5 12.5 z" fill="black" stroke="white" strokeWidth="1" />
-      </g>
+      {/* Spade Shape */}
+      <path
+        d="M 50,5 C 25,25 10,45 20,65 C 25,75 40,95 50,95 C 60,95 75,75 80,65 C 90,45 75,25 50,5 Z"
+        fill="black"
+        stroke="#e5e7eb"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M 45,90 L 55,90 L 50,100 Z"
+        fill="black"
+        stroke="#e5e7eb"
+        strokeWidth="1.5"
+      />
 
       {/* Splashed dots */}
-      <g clipPath="url(#spade-clip)">
-        <circle cx="40" cy="40" r="2" fill="grey" opacity="0.7" />
-        <circle cx="60" cy="35" r="1.5" fill="grey" opacity="0.6" />
-        <circle cx="50" cy="55" r="2.5" fill="grey" opacity="0.8" />
-        <circle cx="45" cy="65" r="1" fill="grey" opacity="0.5" />
-        <circle cx="58" cy="70" r="2" fill="grey" opacity="0.7" />
-        <circle cx="35" cy="50" r="1.2" fill="grey" opacity="0.6" />
-      </g>
+      <circle cx="45" cy="40" r="2.5" fill="grey" opacity="0.6" />
+      <circle cx="60" cy="35" r="1.5" fill="grey" opacity="0.5" />
+      <circle cx="52" cy="55" r="3" fill="grey" opacity="0.7" />
+      <circle cx="42" cy="65" r="1.5" fill="grey" opacity="0.4" />
+      <circle cx="58" cy="70" r="2" fill="grey" opacity="0.6" />
+      <circle cx="38" cy="50" r="2" fill="grey" opacity="0.5" />
       
       {/* Curvy grass */}
       <path
