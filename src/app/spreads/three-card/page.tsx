@@ -13,14 +13,39 @@ type DrawnCard = {
 
 const spreadPositions = ['Past', 'Present', 'Future'];
 
+// Function to get initial state, ensuring it runs only once on the client
+const getInitialState = () => {
+    if (typeof window === 'undefined') {
+        return [];
+    }
+    const storedState = sessionStorage.getItem('threeCardState');
+    if (storedState) {
+        try {
+            const parsedState = JSON.parse(storedState);
+            if (Array.isArray(parsedState) && parsedState.length === 3) {
+                return parsedState;
+            }
+        } catch (e) {
+            console.error("Failed to parse stored three-card state", e);
+        }
+    }
+    return [];
+};
+
+
 export default function ThreeCardSpreadPage() {
-  const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([]);
-  const [areFlipped, setAreFlipped] = useState(false);
+  const [drawnCards, setDrawnCards] = useState<DrawnCard[]>(getInitialState);
+  const [areFlipped, setAreFlipped] = useState(drawnCards.length > 0);
   const [keys, setKeys] = useState([0, 1, 2]);
 
   const drawSpread = () => {
     setAreFlipped(false);
-    setDrawnCards([]);
+    
+    // Clear session storage for a new draw
+    if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('threeCardState');
+    }
+
     setKeys(keys => keys.map(k => k + 3)); // Ensure components re-mount
     
     setTimeout(() => {
@@ -36,6 +61,11 @@ export default function ThreeCardSpreadPage() {
         }
       }
       setDrawnCards(newDrawnCards);
+
+      // Save state to session storage
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('threeCardState', JSON.stringify(newDrawnCards));
+      }
 
       setTimeout(() => {
         setAreFlipped(true);
