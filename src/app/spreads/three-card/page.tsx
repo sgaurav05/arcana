@@ -53,7 +53,7 @@ export default function ThreeCardSpreadPage() {
         setDrawnCards(newDrawnCards);
         sessionStorage.setItem('threeCardState', JSON.stringify(newDrawnCards));
         setIsFlipped(true);
-    }, 150);
+    }, 300);
   };
 
   useEffect(() => {
@@ -76,12 +76,14 @@ export default function ThreeCardSpreadPage() {
           <div key={index} className="flex flex-col items-center">
             <h2 className="text-2xl font-headline text-accent mb-4">{position}</h2>
             <div className="w-60 h-[350px]">
-              {isClient && drawnCards[index] ? (
-                <TarotCard
-                  card={drawnCards[index].card}
-                  isReversed={drawnCards[index].isReversed}
-                  isFlipped={isFlipped}
-                />
+              {isClient ? (
+                drawnCards[index] && (
+                  <TarotCard
+                    card={drawnCards[index].card}
+                    isReversed={drawnCards[index].isReversed}
+                    isFlipped={isFlipped}
+                  />
+                )
               ) : (
                 <div className="w-full h-full border-2 border-dashed border-accent/30 rounded-xl" />
               )}

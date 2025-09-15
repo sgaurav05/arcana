@@ -35,17 +35,23 @@ export default function DailyDrawPage() {
   }, []);
 
   const drawCard = () => {
-    setIsFlipped(false);
+    setIsFlipped(false); // Flip back to show card back
 
     setTimeout(() => {
-      const randomIndex = Math.floor(Math.random() * tarotDeck.length);
+      let card: TarotCardData;
       const isReversed = Math.random() > 0.5;
-      const card = tarotDeck[randomIndex];
+
+      // Ensure we don't draw the same card if one is already present
+      do {
+        const randomIndex = Math.floor(Math.random() * tarotDeck.length);
+        card = tarotDeck[randomIndex];
+      } while (drawnCard && card.id === drawnCard.card.id);
+
       const newDrawnCard = { card, isReversed };
       setDrawnCard(newDrawnCard);
       sessionStorage.setItem('dailyDrawState', JSON.stringify(newDrawnCard));
-      setIsFlipped(true);
-    }, 150);
+      setIsFlipped(true); // Flip to reveal the new card
+    }, 300); // Timeout to allow flip-back animation
   };
 
   useEffect(() => {
@@ -65,14 +71,14 @@ export default function DailyDrawPage() {
       </p>
 
       <div className="mb-8 w-60 h-[350px] flex items-center justify-center">
-        {drawnCard && isClient ? (
-          <div className="w-full h-full">
+        {isClient ? (
+          drawnCard && (
             <TarotCard
               card={drawnCard.card}
               isReversed={drawnCard.isReversed}
               isFlipped={isFlipped}
             />
-          </div>
+          )
         ) : (
           <div className="w-full h-full border-2 border-dashed border-accent/30 rounded-xl flex items-center justify-center text-muted-foreground">
             Your card awaits
