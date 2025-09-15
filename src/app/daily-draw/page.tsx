@@ -13,6 +13,7 @@ type DrawnCard = {
 
 export default function DailyDrawPage() {
   const [drawnCard, setDrawnCard] = useState<DrawnCard | null>(null);
+  const [cardKey, setCardKey] = useState(Date.now().toString());
 
   const drawCard = () => {
     // Select a new card randomly
@@ -20,6 +21,7 @@ export default function DailyDrawPage() {
     const isReversed = Math.random() > 0.5;
     const card = tarotDeck[randomIndex];
     setDrawnCard({ card, isReversed });
+    setCardKey(Date.now().toString());
   };
   
   useEffect(() => {
@@ -40,6 +42,7 @@ export default function DailyDrawPage() {
             <TarotCard
               card={drawnCard.card}
               isReversed={drawnCard.isReversed}
+              cardKey={cardKey}
             />
           </div>
         ) : (

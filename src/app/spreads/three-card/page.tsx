@@ -35,6 +35,7 @@ const getInitialState = (): DrawnCard[] => {
 
 export default function ThreeCardSpreadPage() {
   const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([]);
+  const [cardKey, setCardKey] = useState(Date.now().toString());
 
   useEffect(() => {
     // Initialize state from session storage or draw new cards
@@ -66,6 +67,7 @@ export default function ThreeCardSpreadPage() {
       }
     }
     setDrawnCards(newDrawnCards);
+    setCardKey(Date.now().toString());
   };
 
   return (
@@ -84,6 +86,7 @@ export default function ThreeCardSpreadPage() {
                 <TarotCard
                   card={drawnCards[index].card}
                   isReversed={drawnCards[index].isReversed}
+                  cardKey={`${cardKey}-${index}`}
                 />
               ) : (
                 <div className="w-full h-full border-2 border-dashed border-accent/30 rounded-xl" />
