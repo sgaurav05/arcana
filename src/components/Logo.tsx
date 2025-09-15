@@ -16,12 +16,12 @@ export function Logo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
           <stop offset="100%" style={{ stopColor: '#fed7aa' }} />
         </linearGradient>
         <clipPath id="spade-clip">
-           <path d="M50 2 C25 35, 25 55, 50 90 C75 55, 75 35, 50 2 Z" />
+           <path d="M50,10 C25,40 20,60 50,90 C80,60 75,40 50,10 Z" />
         </clipPath>
       </defs>
       
       {/* Spade shape */}
-      <path d="M50 2 C25 35, 25 55, 50 90 C75 55, 75 35, 50 2 Z" fill="black" stroke="white" strokeWidth="2" />
+      <path d="M50,10 C25,40 20,60 50,90 C80,60 75,40 50,10 Z" fill="black" stroke="white" strokeWidth="2" />
       <path d="M45 85 h10 l-5 15 z" fill="black" />
 
       {/* Splashed dots */}
