@@ -35,40 +35,43 @@ const getInitialState = (): DrawnCard[] => {
 
 export default function ThreeCardSpreadPage() {
   const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([]);
-  const [cardKey, setCardKey] = useState(Date.now().toString());
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const drawSpread = () => {
+    setIsFlipped(false);
+    setTimeout(() => {
+        const newDrawnCards: DrawnCard[] = [];
+        const usedIndices = new Set<number>();
+
+        while (newDrawnCards.length < 3) {
+            const randomIndex = Math.floor(Math.random() * tarotDeck.length);
+            if (!usedIndices.has(randomIndex)) {
+                usedIndices.add(randomIndex);
+                const isReversed = Math.random() > 0.5;
+                newDrawnCards.push({ card: tarotDeck[randomIndex], isReversed });
+            }
+        }
+        setDrawnCards(newDrawnCards);
+        setIsFlipped(true);
+    }, 100);
+  };
 
   useEffect(() => {
-    // Initialize state from session storage or draw new cards
     const initialState = getInitialState();
     if (initialState.length > 0) {
       setDrawnCards(initialState);
+      setIsFlipped(true);
     } else {
       drawSpread();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    // Save state to session storage whenever it changes
     if (drawnCards.length > 0) {
       sessionStorage.setItem('threeCardState', JSON.stringify(drawnCards));
     }
   }, [drawnCards]);
-
-  const drawSpread = () => {
-    const newDrawnCards: DrawnCard[] = [];
-    const usedIndices = new Set<number>();
-
-    while (newDrawnCards.length < 3) {
-      const randomIndex = Math.floor(Math.random() * tarotDeck.length);
-      if (!usedIndices.has(randomIndex)) {
-        usedIndices.add(randomIndex);
-        const isReversed = Math.random() > 0.5;
-        newDrawnCards.push({ card: tarotDeck[randomIndex], isReversed });
-      }
-    }
-    setDrawnCards(newDrawnCards);
-    setCardKey(Date.now().toString());
-  };
 
   return (
     <div className="flex flex-col items-center text-center py-10">
@@ -79,14 +82,14 @@ export default function ThreeCardSpreadPage() {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12 mb-8 w-full max-w-4xl">
         {spreadPositions.map((position, index) => (
-          <div key={`${drawnCards[index]?.card.id}-${index}`} className="flex flex-col items-center">
+          <div key={index} className="flex flex-col items-center">
             <h2 className="text-2xl font-headline text-accent mb-4">{position}</h2>
             <div className="w-60 h-[350px]">
               {drawnCards[index] ? (
                 <TarotCard
                   card={drawnCards[index].card}
                   isReversed={drawnCards[index].isReversed}
-                  cardKey={`${cardKey}-${index}`}
+                  isFflipped={isFlipped}
                 />
               ) : (
                 <div className="w-full h-full border-2 border-dashed border-accent/30 rounded-xl" />

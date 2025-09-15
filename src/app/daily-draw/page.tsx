@@ -13,20 +13,25 @@ type DrawnCard = {
 
 export default function DailyDrawPage() {
   const [drawnCard, setDrawnCard] = useState<DrawnCard | null>(null);
-  const [cardKey, setCardKey] = useState(Date.now().toString());
+  const [isFlipped, setIsFlipped] = useState(false);
 
   const drawCard = () => {
-    // Select a new card randomly
-    const randomIndex = Math.floor(Math.random() * tarotDeck.length);
-    const isReversed = Math.random() > 0.5;
-    const card = tarotDeck[randomIndex];
-    setDrawnCard({ card, isReversed });
-    setCardKey(Date.now().toString());
+    setIsFlipped(false); // Reset flip state
+
+    // Use a timeout to allow the card to flip back before changing the card data
+    setTimeout(() => {
+      const randomIndex = Math.floor(Math.random() * tarotDeck.length);
+      const isReversed = Math.random() > 0.5;
+      const card = tarotDeck[randomIndex];
+      setDrawnCard({ card, isReversed });
+      setIsFlipped(true); // Flip the new card
+    }, 100);
   };
   
   useEffect(() => {
-    // Draw a card on initial load for a better user experience
+    // Draw a card on initial load
     drawCard(); 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -42,7 +47,7 @@ export default function DailyDrawPage() {
             <TarotCard
               card={drawnCard.card}
               isReversed={drawnCard.isReversed}
-              cardKey={cardKey}
+              isFlipped={isFlipped}
             />
           </div>
         ) : (
