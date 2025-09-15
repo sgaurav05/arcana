@@ -80,8 +80,8 @@
 
   .meteor {
     position: absolute;
-    width: 2px;
-    height: 2px;
+    width: 10px;
+    height: 10px;
     background-color: white;
     border-radius: 50%;
     box-shadow: 0 0 10px 0px white;
