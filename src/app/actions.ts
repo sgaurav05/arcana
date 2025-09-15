@@ -3,7 +3,7 @@
 import { getCardInterpretation, CardInterpretationInput } from '@/ai/flows/card-interpretations-with-reasoning';
 import { getQuestionAnswer, QuestionAnswerInput } from '@/ai/flows/ask-question-flow';
 import { getThreeCardSpreadInterpretation, ThreeCardSpreadInterpretationInput } from '@/ai/flows/three-card-spread-interpretation';
-import { getLoveSpreadInterpretation, LoveSpreadInterpretationInput } from '@/ai/flows/love-spread-interpretation';
+import { getLoveSpreadInterpretation as getLoveSpreadInterpretationFlow, LoveSpreadInterpretationInput } from '@/ai/flows/love-spread-interpretation';
 
 type ActionResult = {
   success: boolean;
@@ -44,9 +44,9 @@ export async function getThreeCardInterpretation(input: ThreeCardSpreadInterpret
   }
 }
 
-export async function getLoveSpreadInterpretation(input: LoveSpreadInterpretationInput): Promise<ActionResult> {
+export async function getLoveInterpretation(input: LoveSpreadInterpretationInput): Promise<ActionResult> {
   try {
-    const result = await getLoveSpreadInterpretation(input);
+    const result = await getLoveSpreadInterpretationFlow(input);
     return { success: true, data: result.interpretation };
   } catch (e) {
     console.error(e);

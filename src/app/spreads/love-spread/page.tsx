@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { Heart, Sparkles } from 'lucide-react';
 import { LoveLogo } from '@/components/LoveLogo';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getLoveSpreadInterpretation } from '@/app/actions';
+import { getLoveInterpretation } from '@/app/actions';
 
 type DrawnCard = {
   card: TarotCardData;
@@ -23,8 +23,15 @@ export default function LoveSpreadPage() {
   const [interpretation, setInterpretation] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     const storedState = sessionStorage.getItem('loveSpreadState');
     if (storedState) {
         try {
@@ -40,16 +47,17 @@ export default function LoveSpreadPage() {
             sessionStorage.removeItem('loveSpreadState');
         }
     } else {
-      drawSpread();
+      drawSpread(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isClient]);
 
-  const drawSpread = () => {
+  const drawSpread = (animate = true) => {
     setInterpretation(null);
     setError(null);
     setIsFlipped(false);
-    setTimeout(() => {
+    
+    const draw = () => {
         const newDrawnCards: DrawnCard[] = [];
         const usedIndices = new Set<number>();
         const deck = [...tarotDeck];
@@ -65,7 +73,13 @@ export default function LoveSpreadPage() {
         setDrawnCards(newDrawnCards);
         sessionStorage.setItem('loveSpreadState', JSON.stringify({ cards: newDrawnCards, interpretation: null }));
         setIsFlipped(true);
-    }, 500);
+    };
+
+    if (animate) {
+      setTimeout(draw, 300);
+    } else {
+      draw();
+    }
   };
   
   const handleGetInterpretation = async () => {
@@ -81,7 +95,7 @@ export default function LoveSpreadPage() {
       relationshipCard: { cardName: drawnCards[2].card.name, isReversed: drawnCards[2].isReversed },
     };
 
-    const response = await getLoveSpreadInterpretation(input);
+    const response = await getLoveInterpretation(input);
 
     if (response.success && response.data) {
       setInterpretation(response.data);
@@ -132,11 +146,11 @@ export default function LoveSpreadPage() {
       </div>
 
        <div className="flex gap-4">
-        <Button onClick={drawSpread} size="lg" variant="outline">
+        <Button onClick={() => drawSpread()} size="lg" variant="outline">
           <Heart className="mr-2" />
-          {drawnCards.length > 0 ? 'Draw a New Love Spread' : 'Draw Your Love Cards'}
+          Draw a New Love Spread
         </Button>
-         {drawnCards.length > 0 && !interpretation && (
+         {isFlipped && drawnCards.length > 0 && !interpretation && (
            <Button onClick={handleGetInterpretation} size="lg" disabled={isLoading} className="bg-accent text-accent-foreground hover:bg-accent/90">
              {isLoading ? 'Interpreting the connection...' : 'Get My Reading'}
              {!isLoading && <Sparkles className="ml-2 h-4 w-4" />}
