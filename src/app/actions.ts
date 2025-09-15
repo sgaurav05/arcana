@@ -2,6 +2,8 @@
 
 import { getCardInterpretation, CardInterpretationInput } from '@/ai/flows/card-interpretations-with-reasoning';
 import { getQuestionAnswer, QuestionAnswerInput } from '@/ai/flows/ask-question-flow';
+import { getThreeCardSpreadInterpretation, ThreeCardSpreadInterpretationInput } from '@/ai/flows/three-card-spread-interpretation';
+import { getLoveSpreadInterpretation, LoveSpreadInterpretationInput } from '@/ai/flows/love-spread-interpretation';
 
 type ActionResult = {
   success: boolean;
@@ -29,5 +31,25 @@ export async function getCustomQuestionAnswer(input: QuestionAnswerInput): Promi
   } catch (e) {
     console.error(e);
     return { success: false, error: 'Failed to receive guidance from the ethereal plane. Please try again.' };
+  }
+}
+
+export async function getThreeCardInterpretation(input: ThreeCardSpreadInterpretationInput): Promise<ActionResult> {
+  try {
+    const result = await getThreeCardSpreadInterpretation(input);
+    return { success: true, data: result.interpretation };
+  } catch (e) {
+    console.error(e);
+    return { success: false, error: 'Failed to interpret the spread. Please try again.' };
+  }
+}
+
+export async function getLoveSpreadInterpretation(input: LoveSpreadInterpretationInput): Promise<ActionResult> {
+  try {
+    const result = await getLoveSpreadInterpretation(input);
+    return { success: true, data: result.interpretation };
+  } catch (e) {
+    console.error(e);
+    return { success: false, error: 'Failed to interpret the love spread. Please try again.' };
   }
 }
