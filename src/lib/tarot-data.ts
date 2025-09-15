@@ -1,0 +1,96 @@
+export type Arcana = 'Major' | 'Wands' | 'Cups' | 'Swords' | 'Pentacles';
+
+export interface TarotCardData {
+  id: string;
+  name: string;
+  arcana: Arcana;
+}
+
+export const tarotDeck: TarotCardData[] = [
+  // Major Arcana
+  { id: 'major-0', name: 'The Fool', arcana: 'Major' },
+  { id: 'major-1', name: 'The Magician', arcana: 'Major' },
+  { id: 'major-2', name: 'The High Priestess', arcana: 'Major' },
+  { id: 'major-3', name: 'The Empress', arcana: 'Major' },
+  { id: 'major-4', name: 'The Emperor', arcana: 'Major' },
+  { id: 'major-5', name: 'The Hierophant', arcana: 'Major' },
+  { id: 'major-6', name: 'The Lovers', arcana: 'Major' },
+  { id: 'major-7', name: 'The Chariot', arcana: 'Major' },
+  { id: 'major-8', name: 'Strength', arcana: 'Major' },
+  { id: 'major-9', name: 'The Hermit', arcana: 'Major' },
+  { id: 'major-10', name: 'Wheel of Fortune', arcana: 'Major' },
+  { id: 'major-11', name: 'Justice', arcana: 'Major' },
+  { id: 'major-12', name: 'The Hanged Man', arcana: 'Major' },
+  { id: 'major-13', name: 'Death', arcana: 'Major' },
+  { id: 'major-14', name: 'Temperance', arcana: 'Major' },
+  { id: 'major-15', name: 'The Devil', arcana: 'Major' },
+  { id: 'major-16', name: 'The Tower', arcana: 'Major' },
+  { id: 'major-17', name: 'The Star', arcana: 'Major' },
+  { id: 'major-18', name: 'The Moon', arcana: 'Major' },
+  { id: 'major-19', name: 'The Sun', arcana: 'Major' },
+  { id: 'major-20', name: 'Judgement', arcana: 'Major' },
+  { id: 'major-21', name: 'The World', arcana: 'Major' },
+  // Wands
+  { id: 'wands-1', name: 'Ace of Wands', arcana: 'Wands' },
+  { id: 'wands-2', name: 'Two of Wands', arcana: 'Wands' },
+  { id: 'wands-3', name: 'Three of Wands', arcana: 'Wands' },
+  { id: 'wands-4', name: 'Four of Wands', arcana: 'Wands' },
+  { id: 'wands-5', name: 'Five of Wands', arcana: 'Wands' },
+  { id: 'wands-6', name: 'Six of Wands', arcana: 'Wands' },
+  { id: 'wands-7', name: 'Seven of Wands', arcana: 'Wands' },
+  { id: 'wands-8', name: 'Eight of Wands', arcana: 'Wands' },
+  { id: 'wands-9', name: 'Nine of Wands', arcana: 'Wands' },
+  { id: 'wands-10', name: 'Ten of Wands', arcana: 'Wands' },
+  { id: 'wands-page', name: 'Page of Wands', arcana: 'Wands' },
+  { id: 'wands-knight', name: 'Knight of Wands', arcana: 'Wands' },
+  { id: 'wands-queen', name: 'Queen of Wands', arcana: 'Wands' },
+  { id: 'wands-king', name: 'King of Wands', arcana: 'Wands' },
+  // Cups
+  { id: 'cups-1', name: 'Ace of Cups', arcana: 'Cups' },
+  { id: 'cups-2', name: 'Two of Cups', arcana: 'Cups' },
+  { id: 'cups-3', name: 'Three of Cups', arcana: 'Cups' },
+  { id: 'cups-4', name: 'Four of Cups', arcana: 'Cups' },
+  { id: 'cups-5', name: 'Five of Cups', arcana: 'Cups' },
+  { id: 'cups-6', name: 'Six of Cups', arcana: 'Cups' },
+  { id: 'cups-7', name: 'Seven of Cups', arcana: 'Cups' },
+  { id: 'cups-8', name: 'Eight of Cups', arcana: 'Cups' },
+  { id: 'cups-9', name: 'Nine of Cups', arcana: 'Cups' },
+  { id: 'cups-10', name: 'Ten of Cups', arcana: 'Cups' },
+  { id: 'cups-page', name: 'Page of Cups', arcana: 'Cups' },
+  { id: 'cups-knight', name: 'Knight of Cups', arcana: 'Cups' },
+  { id: 'cups-queen', name: 'Queen of Cups', arcana: 'Cups' },
+  { id: 'cups-king', name: 'King of Cups', arcana: 'Cups' },
+  // Swords
+  { id: 'swords-1', name: 'Ace of Swords', arcana: 'Swords' },
+  { id: 'swords-2', name: 'Two of Swords', arcana: 'Swords' },
+  { id: 'swords-3', name: 'Three of Swords', arcana: 'Swords' },
+  { id: 'swords-4', name: 'Four of Swords', arcana: 'Swords' },
+  { id: 'swords-5', name: 'Five of Swords', arcana: 'Swords' },
+  { id: 'swords-6', name: 'Six of Swords', arcana: 'Swords' },
+  { id: 'swords-7', name: 'Seven of Swords', arcana: 'Swords' },
+  { id: 'swords-8', name: 'Eight of Swords', arcana: 'Swords' },
+  { id: 'swords-9', name: 'Nine of Swords', arcana: 'Swords' },
+  { id: 'swords-10', name: 'Ten of Swords', arcana: 'Swords' },
+  { id: 'swords-page', name: 'Page of Swords', arcana: 'Swords' },
+  { id: 'swords-knight', name: 'Knight of Swords', arcana: 'Swords' },
+  { id: 'swords-queen', name: 'Queen of Swords', arcana: 'Swords' },
+  { id: 'swords-king', name: 'King of Swords', arcana: 'Swords' },
+  // Pentacles
+  { id: 'pentacles-1', name: 'Ace of Pentacles', arcana: 'Pentacles' },
+  { id: 'pentacles-2', name: 'Two of Pentacles', arcana: 'Pentacles' },
+  { id: 'pentacles-3', name: 'Three of Pentacles', arcana: 'Pentacles' },
+  { id: 'pentacles-4', name: 'Four of Pentacles', arcana: 'Pentacles' },
+  { id: 'pentacles-5', name: 'Five of Pentacles', arcana: 'Pentacles' },
+  { id: 'pentacles-6', name: 'Six of Pentacles', arcana: 'Pentacles' },
+  { id: 'pentacles-7', name: 'Seven of Pentacles', arcana: 'Pentacles' },
+  { id: 'pentacles-8', name: 'Eight of Pentacles', arcana: 'Pentacles' },
+  { id: 'pentacles-9', name: 'Nine of Pentacles', arcana: 'Pentacles' },
+  { id: 'pentacles-10', name: 'Ten of Pentacles', arcana: 'Pentacles' },
+  { id: 'pentacles-page', name: 'Page of Pentacles', arcana: 'Pentacles' },
+  { id: 'pentacles-knight', name: 'Knight of Pentacles', arcana: 'Pentacles' },
+  { id: 'pentacles-queen', name: 'Queen of Pentacles', arcana: 'Pentacles' },
+  { id: 'pentacles-king', name: 'King of Pentacles', arcana: 'Pentacles' },
+];
+
+export const getCardByName = (name: string) => tarotDeck.find(card => card.name === name);
+export const getCardById = (id: string) => tarotDeck.find(card => card.id === id);
