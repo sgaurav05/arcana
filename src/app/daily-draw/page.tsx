@@ -13,31 +13,18 @@ type DrawnCard = {
 
 export default function DailyDrawPage() {
   const [drawnCard, setDrawnCard] = useState<DrawnCard | null>(null);
-  const [isFlipped, setIsFlipped] = useState(false);
-  const [cardKey, setCardKey] = useState(0);
 
-  // Avoid hydration mismatch by running random logic on client
   const drawCard = () => {
-    setIsFlipped(false);
-    
-    setCardKey(prev => prev + 1);
-
-    setTimeout(() => {
-      const randomIndex = Math.floor(Math.random() * tarotDeck.length);
-      const isReversed = Math.random() > 0.5;
-      const card = tarotDeck[randomIndex];
-      setDrawnCard({ card, isReversed });
-      
-      setTimeout(() => {
-        setIsFlipped(true);
-      }, 100);
-
-    }, 300);
+    // Select a new card randomly
+    const randomIndex = Math.floor(Math.random() * tarotDeck.length);
+    const isReversed = Math.random() > 0.5;
+    const card = tarotDeck[randomIndex];
+    setDrawnCard({ card, isReversed });
   };
   
   useEffect(() => {
-    // Optionally draw a card on initial load
-    // drawCard(); 
+    // Draw a card on initial load for a better user experience
+    drawCard(); 
   }, []);
 
   return (
@@ -49,11 +36,10 @@ export default function DailyDrawPage() {
 
       <div className="mb-8 w-60 h-[350px] flex items-center justify-center">
         {drawnCard ? (
-          <div key={cardKey} className="w-full h-full">
+          <div className="w-full h-full">
             <TarotCard
               card={drawnCard.card}
               isReversed={drawnCard.isReversed}
-              isFlipped={isFlipped}
             />
           </div>
         ) : (
@@ -67,7 +53,7 @@ export default function DailyDrawPage() {
         {drawnCard ? 'Draw Another Card' : 'Draw Your Card'}
       </Button>
 
-      {drawnCard && isFlipped && (
+      {drawnCard && (
         <div className="mt-8 text-center animate-in fade-in duration-500">
           <h2 className="text-3xl font-bold font-headline">{drawnCard.card.name}</h2>
           {drawnCard.isReversed && <p className="text-accent text-sm">(Reversed)</p>}

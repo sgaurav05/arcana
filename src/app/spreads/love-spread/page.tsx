@@ -15,24 +15,21 @@ type DrawnCard = {
 
 const spreadPositions = ['You', 'Your Partner', 'The Relationship'];
 
-// Function to get initial state, ensuring it runs only once on the client
-const getInitialState = () => {
+// Function to get initial state from sessionStorage, runs only on the client
+const getInitialState = (): DrawnCard[] => {
     if (typeof window === 'undefined') {
         return [];
     }
-    const storedState = sessionStorage.getItem('loveSpreadState');
-    if (storedState) {
-        try {
+    try {
+        const storedState = sessionStorage.getItem('loveSpreadState');
+        if (storedState) {
             const parsedState = JSON.parse(storedState);
-            if (Array.isArray(parsedState) && parsedState.length === 3) {
-                // Ensure card data is complete
-                if (parsedState.every(item => item.card && typeof item.isReversed === 'boolean')) {
-                    return parsedState;
-                }
+            if (Array.isArray(parsedState) && parsedState.length === 3 && parsedState.every(item => item.card && typeof item.isReversed === 'boolean')) {
+                return parsedState;
             }
-        } catch (e) {
-            console.error("Failed to parse stored love spread state", e);
         }
+    } catch (e) {
+        console.error("Failed to parse stored love spread state", e);
     }
     return [];
 };
@@ -40,49 +37,37 @@ const getInitialState = () => {
 
 export default function LoveSpreadPage() {
   const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([]);
-  const [areFlipped, setAreFlipped] = useState(false);
-  const [keys, setKeys] = useState([0, 1, 2]);
 
   useEffect(() => {
+    // Initialize state from session storage or draw new cards
     const initialState = getInitialState();
     if (initialState.length > 0) {
       setDrawnCards(initialState);
-      setAreFlipped(true);
+    } else {
+      drawSpread();
     }
   }, []);
 
   useEffect(() => {
+    // Save state to session storage whenever it changes
     if (drawnCards.length > 0) {
       sessionStorage.setItem('loveSpreadState', JSON.stringify(drawnCards));
-    } else {
-      sessionStorage.removeItem('loveSpreadState');
     }
   }, [drawnCards]);
 
   const drawSpread = () => {
-    setAreFlipped(false);
-    setDrawnCards([]); // Clear cards to ensure re-render
-    
-    setKeys(keys => keys.map(k => k + 3)); // Ensure components re-mount
-    
-    setTimeout(() => {
-      const newDrawnCards: DrawnCard[] = [];
-      const usedIndices = new Set<number>();
+    const newDrawnCards: DrawnCard[] = [];
+    const usedIndices = new Set<number>();
 
-      while (newDrawnCards.length < 3) {
-        const randomIndex = Math.floor(Math.random() * tarotDeck.length);
-        if (!usedIndices.has(randomIndex)) {
-          usedIndices.add(randomIndex);
-          const isReversed = Math.random() > 0.5;
-          newDrawnCards.push({ card: tarotDeck[randomIndex], isReversed });
-        }
+    while (newDrawnCards.length < 3) {
+      const randomIndex = Math.floor(Math.random() * tarotDeck.length);
+      if (!usedIndices.has(randomIndex)) {
+        usedIndices.add(randomIndex);
+        const isReversed = Math.random() > 0.5;
+        newDrawnCards.push({ card: tarotDeck[randomIndex], isReversed });
       }
-      setDrawnCards(newDrawnCards);
-
-      setTimeout(() => {
-        setAreFlipped(true);
-      }, 100);
-    }, 500);
+    }
+    setDrawnCards(newDrawnCards);
   };
 
   return (
@@ -95,20 +80,19 @@ export default function LoveSpreadPage() {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12 mb-8 w-full max-w-4xl">
         {spreadPositions.map((position, index) => (
-          <div key={keys[index]} className="flex flex-col items-center">
+          <div key={`${drawnCards[index]?.card.id}-${index}`} className="flex flex-col items-center">
             <h2 className="text-2xl font-headline text-accent mb-4">{position}</h2>
             <div className="w-60 h-[350px]">
               {drawnCards[index] ? (
                 <TarotCard
                   card={drawnCards[index].card}
                   isReversed={drawnCards[index].isReversed}
-                  isFlipped={areFlipped}
                 />
               ) : (
                 <div className="w-full h-full border-2 border-dashed border-accent/30 rounded-xl" />
               )}
             </div>
-            {drawnCards[index] && areFlipped && (
+            {drawnCards[index] && (
               <div className="mt-4 text-center animate-in fade-in duration-500">
                 <h3 className="text-xl font-bold font-headline">{drawnCards[index].card.name}</h3>
                 {drawnCards[index].isReversed && <p className="text-accent text-sm">(Reversed)</p>}

@@ -4,17 +4,25 @@ import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { cn } from '@/lib/utils';
 import { TarotCardData } from '@/lib/tarot-data';
+import { useState, useEffect } from 'react';
 
 interface TarotCardProps {
   card: TarotCardData;
   isReversed?: boolean;
-  isFlipped?: boolean;
   className?: string;
 }
 
-export function TarotCard({ card, isReversed = false, isFlipped = false, className }: TarotCardProps) {
+export function TarotCard({ card, isReversed = false, className }: TarotCardProps) {
+  const [isFlipped, setIsFlipped] = useState(false);
   const cardImage = PlaceHolderImages.find((img) => img.id === card.id);
   const cardBackImage = PlaceHolderImages.find((img) => img.id === 'card-back');
+
+  useEffect(() => {
+    // Reset and then trigger the flip animation whenever the card prop changes.
+    setIsFlipped(false);
+    const timer = setTimeout(() => setIsFlipped(true), 100);
+    return () => clearTimeout(timer);
+  }, [card]);
 
   return (
     <div className={cn('group [perspective:1000px]', className)}>
