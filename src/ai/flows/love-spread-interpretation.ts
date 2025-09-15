@@ -15,14 +15,14 @@ const CardInputSchema = z.object({
   isReversed: z.boolean().describe('Whether the card is reversed.'),
 });
 
-export const LoveSpreadInterpretationInputSchema = z.object({
+const LoveSpreadInterpretationInputSchema = z.object({
   youCard: CardInputSchema.describe("The card representing the person asking."),
   partnerCard: CardInputSchema.describe("The card representing their partner."),
   relationshipCard: CardInputSchema.describe("The card representing the dynamic of the relationship itself."),
 });
 export type LoveSpreadInterpretationInput = z.infer<typeof LoveSpreadInterpretationInputSchema>;
 
-export const LoveSpreadInterpretationOutputSchema = z.object({
+const LoveSpreadInterpretationOutputSchema = z.object({
   interpretation: z
     .string()
     .describe('A detailed and cohesive interpretation of the love spread, explaining the dynamic between the two people and the relationship.'),

@@ -15,14 +15,14 @@ const CardInputSchema = z.object({
   isReversed: z.boolean().describe('Whether the card is reversed.'),
 });
 
-export const ThreeCardSpreadInterpretationInputSchema = z.object({
+const ThreeCardSpreadInterpretationInputSchema = z.object({
   pastCard: CardInputSchema.describe('The card representing the Past.'),
   presentCard: CardInputSchema.describe('The card representing the Present.'),
   futureCard: CardInputSchema.describe('The card representing the Future.'),
 });
 export type ThreeCardSpreadInterpretationInput = z.infer<typeof ThreeCardSpreadInterpretationInputSchema>;
 
-export const ThreeCardSpreadInterpretationOutputSchema = z.object({
+const ThreeCardSpreadInterpretationOutputSchema = z.object({
   interpretation: z
     .string()
     .describe('A detailed and cohesive interpretation of the three-card spread, explaining the story from past to future.'),
