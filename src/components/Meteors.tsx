@@ -4,9 +4,15 @@ import { useState, useEffect } from 'react';
 
 export const Meteors = () => {
     const [meteors, setMeteors] = useState<React.ReactNode[]>([]);
+    const [isMounted, setIsMounted] = useState(false);
   
     useEffect(() => {
-      // Ensure this runs only on the client
+        setIsMounted(true);
+    }, []);
+
+    useEffect(() => {
+      if (!isMounted) return;
+
       const meteorCount = 20;
       const generatedMeteors = Array.from({ length: meteorCount }).map((_, i) => (
         <div
@@ -21,7 +27,11 @@ export const Meteors = () => {
         />
       ));
       setMeteors(generatedMeteors);
-    }, []);
+    }, [isMounted]);
+
+    if (!isMounted) {
+        return null;
+    }
   
     return <div className="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden">{meteors}</div>;
   };
