@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { TarotCard } from '@/components/TarotCard';
 import Link from 'next/link';
 import { Heart } from 'lucide-react';
+import { LoveLogo } from '@/components/LoveLogo';
 
 type DrawnCard = {
   card: TarotCardData;
@@ -46,6 +47,7 @@ export default function LoveSpreadPage() {
 
   return (
     <div className="flex flex-col items-center text-center py-10">
+      <LoveLogo className="mb-4" />
       <h1 className="text-4xl md:text-5xl font-headline font-bold text-accent mb-4">Love Spread</h1>
       <p className="text-lg text-muted-foreground mb-8 max-w-2xl">
         Gain insight into your romantic life. This spread explores the energies of you, your partner, and the relationship itself.
