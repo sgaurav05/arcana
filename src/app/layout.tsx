@@ -3,32 +3,12 @@ import './globals.css';
 import { APP_NAME } from '@/lib/constants';
 import { Header } from '@/components/Header';
 import { Toaster } from '@/components/ui/toaster';
+import { Meteors } from '@/components/Meteors';
 
 export const metadata: Metadata = {
   title: APP_NAME,
   description: 'A mystical digital tarot app for daily readings and insights.',
 };
-
-const Meteors = () => {
-  const meteorCount = 20;
-  return (
-    <>
-      {Array.from({ length: meteorCount }).map((_, i) => (
-        <div
-          key={i}
-          className="meteor"
-          style={{
-            top: `${Math.random() * 20}%`,
-            left: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 5}s`,
-            animationDuration: `${Math.random() * 3 + 2}s`,
-          }}
-        />
-      ))}
-    </>
-  );
-};
-
 
 export default function RootLayout({
   children,
