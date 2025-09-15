@@ -1,6 +1,7 @@
 'use server';
 
 import { getCardInterpretation, CardInterpretationInput } from '@/ai/flows/card-interpretations-with-reasoning';
+import { getQuestionAnswer, QuestionAnswerInput } from '@/ai/flows/ask-question-flow';
 
 type ActionResult = {
   success: boolean;
@@ -18,5 +19,15 @@ export async function getPersonalizedInterpretation(input: CardInterpretationInp
   } catch (e) {
     console.error(e);
     return { success: false, error: 'Failed to consult the mystical energies. Please try again later.' };
+  }
+}
+
+export async function getCustomQuestionAnswer(input: QuestionAnswerInput): Promise<ActionResult> {
+  try {
+    const result = await getQuestionAnswer(input);
+    return { success: true, data: result.answer };
+  } catch (e) {
+    console.error(e);
+    return { success: false, error: 'Failed to receive guidance from the ethereal plane. Please try again.' };
   }
 }
