@@ -94,7 +94,7 @@
       opacity: 1;
     }
     to {
-      transform: translate(-50vw, 100vh) rotate(-45deg);
+      transform: translate(-100vw, 100vh) rotate(-45deg);
       opacity: 0;
     }
   }
